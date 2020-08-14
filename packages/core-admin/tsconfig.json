@@ -1,0 +1,20 @@
+{
+
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "baseUrl": "src",
+    "paths": {
+      "@components/*": ["components/*"],
+      "@contexts/*": ["contexts/*"],
+      "@hocs/*": ["hocs/*"],
+      "@hooks/*": ["hooks/*"],
+      "@interfaces": ["interfaces"],
+      "@modules/*": ["modules/*"],
+      "@pages/*": ["pages/*"],
+      "@utils/*": ["utils/*"],
+      "@theme": ["theme"]
+    }
+  },
+  "exclude": ["node_modules"],
+  "include": ["**/*.ts", "**/*.tsx", "src"]
+}
