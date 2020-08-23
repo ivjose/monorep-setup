@@ -15,9 +15,9 @@ import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 
+import { Alert, InputTextFloat } from '@project/shared-components';
+
 import Link from '@components/common/Link';
-import Alert from '@components/common/Alert';
-import { InputTextFloat } from '@components/common/Input';
 import { useAuth } from '@contexts/AuthContext';
 
 import { useStyles } from './styles';
