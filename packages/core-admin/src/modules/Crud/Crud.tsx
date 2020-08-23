@@ -6,12 +6,12 @@ import EditIcon from '@material-ui/icons/Edit';
 import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
+import { Button } from '@project/shared-components';
+import { Table, TableDataType } from '@project/shared-components';
+
 import useRequest from '@hooks/useRequest';
-import Button from '@components/common/Button';
 import NextLink from '@components/common/Link';
 import { useNotifyProvider } from '@contexts/NotifyContext';
-
-import { Table, TableDataType } from '@project/shared-components';
 
 import { User, CrudTableProps } from './interfaces';
 import { deletePost } from './services';

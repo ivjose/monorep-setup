@@ -1,6 +1,7 @@
 import React, { ReactNode, ReactElement, useState } from 'react';
-import Snackbar from '@material-ui/core/Snackbar';
-import Alert from '@components/common/Alert';
+import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
+
+import { Alert } from '@project/shared-components';
 
 type Status = 'error' | 'success' | 'info' | 'warning' | undefined;
 
@@ -14,6 +15,7 @@ type NotifyContext = {
 type UpdateStatus = {
   status?: Status;
   message?: string | undefined;
+  position?: SnackbarOrigin;
 };
 
 const NotifyContext = React.createContext<NotifyContext>({
@@ -30,8 +32,20 @@ export const NotifyProvider = ({
   const [openNotify, setOpenNotify] = useState<boolean>(false);
   const [status, setStatus] = useState<Status>(undefined);
   const [message, setMessage] = useState<string | undefined>('');
+  const [position, setPosition] = useState<SnackbarOrigin>({
+    vertical: 'top',
+    horizontal: 'center',
+  });
 
-  function handleUpdateStatus({ status, message }: UpdateStatus): void {
+  function handleUpdateStatus({
+    status,
+    message,
+    position,
+  }: UpdateStatus): void {
+    if (position) {
+      position && setPosition(position);
+    }
+
     setStatus(status);
     setMessage(message);
     setOpenNotify(true);
@@ -53,7 +67,7 @@ export const NotifyProvider = ({
         open={openNotify}
         autoHideDuration={2000}
         onClose={handleClose}
-        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+        anchorOrigin={position}
       >
         <Alert onClose={handleClose} severity={status}>
           {message}
@@ -67,7 +81,7 @@ export const NotifyProvider = ({
 export function useNotifyProvider(): NotifyContext {
   const context = React.useContext(NotifyContext);
   if (context === undefined) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error('useNotifyProvider must be used within an NotifyProvider');
   }
   return context;
 }

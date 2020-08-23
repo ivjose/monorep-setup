@@ -1,8 +1,7 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
-import Button from '@material-ui/core/Button';
 
-import { InputText } from '@components/common/Input';
+import { InputText, Button } from '@project/shared-components';
 
 type CrudFormProps = {
   register: any;

@@ -11,10 +11,11 @@
     "build:consumer": "lerna run build --parallel --scope=core-consumer",
     "build:seller": "lerna run build --parallel --scope=core-seller",
     "build:admin": "lerna run build --parallel --scope=core-admin",
-    "clean": "yarn clean:artifacts && yarn clean:packages && yarn clean:root",
+    "clean": "yarn clean:artifacts && yarn clean:packages && yarn clean:root && yarn clean:next",
     "clean:artifacts": "lerna run clean --parallel",
     "clean:packages": "lerna clean --yes",
     "clean:root": "rm -rf node_modules",
+    "clean:next": "rm -rf .next",
     "lint": "lerna run lint",
     "lint:fix": "lerna run lint:fix",
     "test": "echo \"Error: no test specified\" && exit 1"

@@ -1,6 +1,7 @@
 import React, { ReactNode, ReactElement, useState } from 'react';
 import Snackbar, { SnackbarOrigin } from '@material-ui/core/Snackbar';
-import Alert from '@components/common/Alert';
+
+import { Alert } from '@project/shared-components';
 
 type Status = 'error' | 'success' | 'info' | 'warning' | undefined;
 

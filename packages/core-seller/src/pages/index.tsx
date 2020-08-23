@@ -25,7 +25,7 @@ const IndexPage: NextPage<Props> = ({ items }) => {
   console.log(items);
 
   return (
-    <Main title="SELLER">
+    <Main title="New Title">
       <Dashboard />
     </Main>
   );
