@@ -9,9 +9,10 @@ import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
 import MuiAlert from '@material-ui/lab/Alert';
 
+import { InputTextFloat } from '@project/shared-components';
+
 import Link from '@components/common/Link';
-import { InputTextFloat } from '@components/common/Input';
-import { useAuth } from '@ontexts/AuthContext';
+import { useAuth } from '@contexts/AuthContext';
 
 import { useStyles } from './styles';
 import { validationSchema } from './validation';
