@@ -41,7 +41,7 @@ export function updatePost<T>(
   });
 }
 
-export function deletePost(id: string | string[] | undefined): AxiosPromise {
+export function deletePost(id: number): AxiosPromise {
   return request({
     url: `https://jsonplaceholder.typicode.com/posts/${id}`,
     method: 'DELETE',

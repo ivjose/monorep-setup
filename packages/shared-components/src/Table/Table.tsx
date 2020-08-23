@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import { useRouter } from 'next/router';
 
 import MuiTable from '@material-ui/core/Table';
 import TableBody from '@material-ui/core/TableBody';
@@ -8,35 +7,44 @@ import TableSortLabel from '@material-ui/core/TableSortLabel';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import TableFooter from '@material-ui/core/TableFooter';
-import TablePagination from '@material-ui/core/TablePagination';
+// import TableFooter from '@material-ui/core/TableFooter';
+// import TablePagination from '@material-ui/core/TablePagination';
+import Pagination from '@material-ui/lab/Pagination';
 
 import Paper from '@material-ui/core/Paper';
 import Checkbox from '@material-ui/core/Checkbox';
 
-import TablePaginationActions from './components/TablePaginationActions';
+// import TablePaginationActions from './components/TablePaginationActions';
 import TableToolbar from './components/TableToolbar';
 import { useTableStyles } from './styles';
 import { Order, TableProps } from './interfaces';
 import { TABLE } from './constants';
 
 const Table = <DataType extends { [key: string]: any }>({
+  search,
   columns,
   keyId,
   dataSource = [],
   total,
   pagination,
+  checkbox,
   title = 'Table List',
   headerAction,
+  router = {
+    query: {},
+    push: () => {},
+    pathname: '',
+  },
 }: TableProps<DataType>): JSX.Element => {
   const classes = useTableStyles();
-  const { query, push, pathname } = useRouter();
+  const { query, push, pathname } = router;
 
   const [orderBy, setorderBy] = useState('');
-  const [order, setOrder] = React.useState<Order>('asc');
-  const [selected, setSelected] = React.useState<
+  const [order, setOrder] = useState<Order>('asc');
+  const [selected, setSelected] = useState<
     (string | DataType[keyof DataType])[]
   >([]);
+  const [searchText, setSearchText] = useState('');
 
   useEffect(() => {
     if (pagination && Number(query[TABLE.PAGE]) === 0) {
@@ -45,26 +53,27 @@ const Table = <DataType extends { [key: string]: any }>({
   }, []);
 
   const handleChangePage = (
-    event: React.MouseEvent<HTMLButtonElement> | null,
-    newPage: number
+    event: React.ChangeEvent<unknown>,
+    value: number
   ) => {
     event?.preventDefault();
-    push({ pathname, query: { ...query, [TABLE.PAGE]: newPage + 1 } });
-  };
-  NaN;
+    console.log(value, 'asdasd');
 
-  const handleChangeRowsPerPage = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) => {
-    push({
-      pathname,
-      query: {
-        ...query,
-        [TABLE.PAGE]: 1,
-        [TABLE.PAGE_COUNT]: parseInt(event.target.value, 10),
-      },
-    });
+    push({ pathname, query: { ...query, [TABLE.PAGE]: value } });
   };
+
+  // const handleChangeRowsPerPage = (
+  //   event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  // ) => {
+  //   push({
+  //     pathname,
+  //     query: {
+  //       ...query,
+  //       [TABLE.PAGE]: 1,
+  //       [TABLE.PAGE_COUNT]: parseInt(event.target.value, 10),
+  //     },
+  //   });
+  // };
 
   const createSortHandler = (property: string) => (
     event: React.MouseEvent<unknown>
@@ -124,8 +133,26 @@ const Table = <DataType extends { [key: string]: any }>({
     }
   };
 
-  const selectedPage: number =
-    Number(query[TABLE.PAGE]) >= 1 ? Number(query[TABLE.PAGE]) - 1 : 0;
+  const handleSearchText = (value: string) => {
+    console.log(value, 'SEARCGH!!!');
+    setSearchText(value);
+    if (value) {
+      push({
+        pathname,
+        query: { ...query, search: value },
+      });
+    } else {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      const { search, ...newQuery } = query;
+      push({
+        pathname,
+        query: { ...newQuery },
+      });
+    }
+  };
+
+  // const selectedPage: number =
+  //   Number(query[TABLE.PAGE]) >= 1 ? Number(query[TABLE.PAGE]) - 1 : 0;
 
   const isSelected = (name: string | DataType[keyof DataType]) =>
     selected.indexOf(name) !== -1;
@@ -138,8 +165,11 @@ const Table = <DataType extends { [key: string]: any }>({
     <div className={classes.root}>
       <Paper className={classes.paper}>
         <TableToolbar
+          search={search}
           title={title}
           numSelected={selected.length}
+          searchText={searchText}
+          setSearchText={handleSearchText}
           render={headerAction({
             selectedData: selected,
             callBack: () => setSelected([]),
@@ -151,22 +181,40 @@ const Table = <DataType extends { [key: string]: any }>({
             className={classes.table}
             aria-label="simple table"
           >
+            {pagination && dataSource?.length > 0 && (
+              <caption style={{ textAlign: 'center' }}>
+                <Pagination
+                  size="small"
+                  page={Number(query[TABLE.PAGE])}
+                  count={Number(total)}
+                  onChange={handleChangePage}
+                  style={{ display: 'inline-block' }}
+                />
+              </caption>
+            )}
+
             <TableHead>
               <TableRow>
-                <TableCell padding="checkbox">
-                  <Checkbox
-                    indeterminate={
-                      selected.length > 0 && selected.length < dataSource.length
-                    }
-                    checked={dataSource.length > 0 && isAllSelected}
-                    onChange={handleSelectAllClick}
-                    inputProps={{ 'aria-label': 'select all desserts' }}
-                  />
-                </TableCell>
+                {checkbox && (
+                  <TableCell padding="checkbox">
+                    <Checkbox
+                      indeterminate={
+                        selected.length > 0 &&
+                        selected.length < dataSource.length
+                      }
+                      checked={dataSource.length > 0 && isAllSelected}
+                      onChange={handleSelectAllClick}
+                      inputProps={{ 'aria-label': 'select all desserts' }}
+                    />
+                  </TableCell>
+                )}
+
                 {columns?.map((column) => (
                   <TableCell
                     key={String(column.name)}
                     sortDirection={orderBy === column.name ? order : false}
+                    align={column.align}
+                    style={{ width: column.width }}
                   >
                     {column.sort ? (
                       <TableSortLabel
@@ -204,16 +252,18 @@ const Table = <DataType extends { [key: string]: any }>({
                     selected={isItemSelected}
                   >
                     <TableCell padding="checkbox">
-                      <Checkbox
-                        checked={isItemSelected}
-                        inputProps={{ 'aria-labelledby': labelId }}
-                        onClick={(event: React.MouseEvent<unknown>) =>
-                          handleClick(event, row[keyId])
-                        }
-                      />
+                      {checkbox && (
+                        <Checkbox
+                          checked={isItemSelected}
+                          inputProps={{ 'aria-labelledby': labelId }}
+                          onClick={(event: React.MouseEvent<unknown>) =>
+                            handleClick(event, row[keyId])
+                          }
+                        />
+                      )}
                     </TableCell>
                     {columns.map((column) => (
-                      <TableCell key={String(column.name)}>
+                      <TableCell key={String(column.name)} align={column.align}>
                         {column.render ? column.render(row) : row[column.name]}
                       </TableCell>
                     ))}
@@ -221,25 +271,6 @@ const Table = <DataType extends { [key: string]: any }>({
                 );
               })}
             </TableBody>
-            {pagination && dataSource?.length > 0 && (
-              <TableFooter>
-                <TableRow>
-                  <TablePagination
-                    rowsPerPageOptions={[5, 10, 25]}
-                    count={Number(total)}
-                    rowsPerPage={
-                      query[TABLE.PAGE_COUNT]
-                        ? Number(query[TABLE.PAGE_COUNT])
-                        : 10
-                    }
-                    page={query[TABLE.PAGE] ? Number(selectedPage) : 0}
-                    onChangePage={handleChangePage}
-                    onChangeRowsPerPage={handleChangeRowsPerPage}
-                    ActionsComponent={TablePaginationActions}
-                  />
-                </TableRow>
-              </TableFooter>
-            )}
           </MuiTable>
         </TableContainer>
       </Paper>

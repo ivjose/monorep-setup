@@ -4,10 +4,15 @@ export type Order = 'asc' | 'desc';
 
 export type TableColumnsProps<DataKey> = {
   title: string;
-  name: keyof DataKey | string;
+  name: keyof DataKey;
   sort?: boolean;
-  render?: (data: DataKey) => JSX.Element;
 };
+
+export type IconType = 'edit' | 'delete' | 'view';
+
+export interface ActionIconsType {
+  [key: string]: JSX.Element;
+}
 
 export interface TableDataType<T> {
   selectedData: (string | T[keyof T])[];
@@ -24,6 +29,12 @@ export interface TablePaginationActionsProps {
   ) => void;
 }
 
+export interface ActionProps<T> {
+  icon: IconType;
+  tooltip: string;
+  onClick: (K: T) => void;
+}
+
 export interface TableProps<TableData> {
   title?: string;
   pagination?: boolean;
@@ -31,5 +42,6 @@ export interface TableProps<TableData> {
   keyId: keyof TableData;
   dataSource: TableData[] | undefined;
   total?: number | string;
+  actions: ActionProps<TableData>[];
   headerAction: (action: TableDataType<TableData>) => JSX.Element;
 }

@@ -1,26 +1,31 @@
 import React from 'react';
 import { useRouter } from 'next/router';
+import Tooltip from '@material-ui/core/Tooltip';
+import IconButton from '@material-ui/core/IconButton';
+import EditIcon from '@material-ui/icons/Edit';
+import DeleteIcon from '@material-ui/icons/Delete';
 import SaveIcon from '@material-ui/icons/Save';
 
 import useRequest from '@hooks/useRequest';
 import Button from '@components/common/Button';
-import Table from '@components/common/Table';
-import { TableDataType } from '@components/common/Table/interfaces';
+import NextLink from '@components/common/Link';
 import { useNotifyProvider } from '@contexts/NotifyContext';
+
+import { Table, TableDataType } from '@project/shared-components';
 
 import { User, CrudTableProps } from './interfaces';
 import { deletePost } from './services';
 // import { CRUD } from './constants';
 
 const Crud: React.FC<CrudTableProps> = ({ initialData }) => {
-  const { query } = useRouter();
+  const router = useRouter();
   const { setUpdateStatus } = useNotifyProvider();
   const { data, mutate } = useRequest<User[]>(
     {
       // url: CRUD.API,
       url: 'https://jsonplaceholder.typicode.com/posts',
       params: {
-        ...query,
+        ...router.query,
       },
     },
     {
@@ -40,7 +45,7 @@ const Crud: React.FC<CrudTableProps> = ({ initialData }) => {
 
   console.log(data, 'ADSASDASDasd');
 
-  const handleDelete = async (id: string | string[] | undefined) => {
+  const handleDelete = async (id: number) => {
     try {
       await deletePost(id);
       mutate();
@@ -54,9 +59,12 @@ const Crud: React.FC<CrudTableProps> = ({ initialData }) => {
     <div>
       <Table<User>
         pagination
+        checkbox
+        search
         title="User List"
         keyId="id"
         total={100}
+        router={router}
         dataSource={data}
         headerAction={({ selectedData, callBack }) => (
           <div>
@@ -71,19 +79,6 @@ const Crud: React.FC<CrudTableProps> = ({ initialData }) => {
             </Button>
           </div>
         )}
-        actions={[
-          {
-            icon: 'edit',
-            tooltip: 'Edit User',
-            href: '/crud',
-            slug: 'crudId',
-          },
-          {
-            icon: 'delete',
-            tooltip: 'delete User',
-            onClick: (rowData) => handleDelete(`${rowData.id}`),
-          },
-        ]}
         columns={[
           {
             title: 'Title',
@@ -93,6 +88,32 @@ const Crud: React.FC<CrudTableProps> = ({ initialData }) => {
             title: 'Body',
             name: 'body',
             sort: true,
+          },
+          {
+            title: 'Action',
+            name: 'action',
+            width: 150,
+            align: 'center',
+            // eslint-disable-next-line react/display-name
+            render: (data) => (
+              <div>
+                <Tooltip title="asdasd">
+                  <NextLink href={`/crud/[crudId]`} as={`/crud/${data.id}`}>
+                    <IconButton aria-label="last page ASDSD">
+                      <EditIcon />
+                    </IconButton>
+                  </NextLink>
+                </Tooltip>
+                <Tooltip title="asdasd">
+                  <IconButton
+                    aria-label="last page ASDSD"
+                    onClick={() => handleDelete(data.id)}
+                  >
+                    <DeleteIcon />
+                  </IconButton>
+                </Tooltip>
+              </div>
+            ),
           },
         ]}
       />

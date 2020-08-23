@@ -1,0 +1,14 @@
+{
+  "presets": ["next/babel"],
+  "plugins": [
+    [
+      "module-resolver",
+      {
+        "alias": {
+          "@project/shared-components": "../shared-components/src",
+          "@project/shared-utils": "../shared-utils/src"
+        }
+      }
+    ]
+  ]
+}
