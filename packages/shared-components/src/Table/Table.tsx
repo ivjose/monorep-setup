@@ -20,6 +20,7 @@ import { useTableStyles } from './styles';
 import { Order, TableProps } from './interfaces';
 import { TABLE } from './constants';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Table = <DataType extends { [key: string]: any }>({
   search,
   columns,

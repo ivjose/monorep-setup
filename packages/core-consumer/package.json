@@ -40,7 +40,7 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 3010",
     "build": "next build",
     "start": "next start",
     "lint": "eslint src --ext .ts,.tsx",

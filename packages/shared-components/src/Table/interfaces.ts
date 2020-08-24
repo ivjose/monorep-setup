@@ -34,5 +34,6 @@ export interface TableProps<TableData> {
   dataSource: TableData[] | undefined;
   total?: number | string;
   headerAction: (action: TableDataType<TableData>) => JSX.Element;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   router?: any;
 }

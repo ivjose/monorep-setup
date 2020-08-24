@@ -5,6 +5,10 @@ const workspace = join(__dirname, '..');
 
 module.exports = {
   poweredByHeader: false,
+  generateBuildId: async () => {
+    // You can, for example, get the latest git commit hash here
+    return 'my-build-id';
+  },
   webpack: (config, options) => {
     /** Allows import modules from packages in workspace. */
     config.module = {
