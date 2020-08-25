@@ -5,6 +5,8 @@
   "author": "jose",
   "license": "MIT",
   "main": "index.js",
+  "private": true,
+  "workspaces": ["packages/*"],
   "husky": {
     "hooks": {
       "pre-commit": "npx lerna run --concurrency 1 --stream precommit"
@@ -14,7 +16,7 @@
     "bootstrap": "lerna bootstrap",
     "dev:consumer": "lerna run dev --parallel --scope=core-consumer",
     "dev:seller": "lerna run dev --parallel --scope=core-seller",
-    "dev:admin": "lerna run dev --scope=core-admin",
+    "dev:admin": "lerna run dev --parallel --scope=core-admin",
     "build:consumer": "lerna run build --parallel --scope=core-consumer",
     "build:seller": "lerna run build --parallel --scope=core-seller",
     "build:admin": "lerna run build --parallel --scope=core-admin",
