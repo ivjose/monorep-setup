@@ -2,10 +2,12 @@
   "name": "core-project-haplos",
   "version": "1.0.0",
   "description": "project haplos",
+  "author": "jose",
+  "license": "MIT",
   "main": "index.js",
   "husky": {
     "hooks": {
-      "pre-commit": "npm run lint"
+      "pre-commit": "npx lerna run --concurrency 1 --stream precommit"
     }
   },
   "scripts": {
@@ -29,8 +31,6 @@
     "monorepo",
     "react"
   ],
-  "author": "jose",
-  "license": "MIT",
   "devDependencies": {
     "@types/node": "^14.0.27",
     "@types/react": "^16.9.46",
