@@ -7,11 +7,6 @@
   "main": "index.js",
   "private": true,
   "workspaces": ["packages/*"],
-  "husky": {
-    "hooks": {
-      "pre-commit": "npx lerna run --concurrency 1 --stream precommit"
-    }
-  },
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "dev:consumer": "lerna run dev --parallel --scope=core-consumer",

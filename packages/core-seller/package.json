@@ -40,17 +40,7 @@
     "lint-staged": "^10.2.12",
     "prettier": "^2.0.5",
     "typescript": "^3.9.7"
-  },
-  "lint-staged": {
-    "src/**/*.{ts,tsx}": [
-      "yarn lint", "git add"
-    ]
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
+  }, 
   "scripts": {
     "dev": "next -p 3010",
     "build": "next build",
