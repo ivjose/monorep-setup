@@ -30,6 +30,7 @@ module.exports = {
       'error',
       { allow: ['arrowFunctions'] },
     ],
+    '@typescript-eslint/no-explicit-any': ['error', { ignoreRestArgs: true }],
     'jsx-a11y/label-has-associated-control': [
       'error',
       {

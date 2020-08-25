@@ -7,7 +7,7 @@ import Button from '@material-ui/core/Button';
 import Grid from '@material-ui/core/Grid';
 import LockOutlinedIcon from '@material-ui/icons/LockOutlined';
 import Typography from '@material-ui/core/Typography';
-import MuiAlert from '@material-ui/lab/Alert';
+import Alert from '@material-ui/lab/Alert';
 
 import { InputTextFloat } from '@project/shared-components';
 
@@ -21,10 +21,6 @@ type Inputs = {
   email: string;
   password: string;
 };
-
-function Alert(props: any) {
-  return <MuiAlert elevation={6} variant="filled" {...props} />;
-}
 
 const Register: React.FC = () => {
   const { register, handleSubmit, errors } = useForm<Inputs>({
