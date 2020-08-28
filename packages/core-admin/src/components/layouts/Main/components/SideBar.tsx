@@ -70,6 +70,16 @@ const SideBar: React.FC<Props> = ({
             </ListItemIcon>
             <ListItemText primary="Create" />
           </ListItem>
+          <ListItem
+            button
+            component={Link}
+            href="/crud-redux?_page=1&_limit=10"
+          >
+            <ListItemIcon>
+              <InboxIcon />
+            </ListItemIcon>
+            <ListItemText primary="Redux" />
+          </ListItem>
           {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
             <ListItem button key={text}>
               <ListItemIcon>

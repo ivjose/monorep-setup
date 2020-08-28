@@ -10,8 +10,6 @@ import { CrudTableProps } from '@modules/Crud/interfaces';
 import { UrlParams } from '@interfaces';
 
 const CrudPage: NextPage<CrudTableProps> = ({ initialData }) => {
-  console.log(initialData, 'DDDDDDDDDDDDASDASD');
-
   return (
     <Main title="New Title">
       <Crud initialData={initialData} />
