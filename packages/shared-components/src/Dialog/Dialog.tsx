@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import React, { ReactNode } from 'react';
 
 import MuiDialog from '@material-ui/core/Dialog';
